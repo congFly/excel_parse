@@ -1,62 +1,43 @@
-
 <html>
 <head>
     <title>SheetJS JS-XLSX In-Browser HTML</title>
-    <style>
-        .xport, .btn {
-            display: inline;
-            text-align:center;
-        }
-        a { text-decoration: none }
-    </style>
+    <!--
+        <style>
+            .xport, .btn {
+                display: inline;
+                text-align:center;
+            }
+            a { text-decoration: none }
+        </style>
+    -->
+
+    <link rel="stylesheet" media="screen" href="vendor/jquery.handsontable.full.css">
+    <link rel="stylesheet" media="screen" href="vendor/samples.css">
+    <link rel="stylesheet" media="screen" href="vendor/alertify.css">
 </head>
+<script src="vendor/alertify.js"></script>
+<script src="vendor/jquery.min.js"></script>
+<script src="vendor/jquery.handsontable.full.js"></script>
+<script src="vendor/alertify.js"></script>
+
 <body>
 <!-- SheetJS js-xlsx library -->
 <script type="text/javascript" src="./assets/js/shim.js"></script>
 <script type="text/javascript" src="./assets/js/xlsx.full.min.js"></script>
 
+
+<script src="assets/js/shim.js"></script>
+<script src="assets/js/xlsx.full.min.js"></script>
+<script src="assets/js/dropsheets.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/base64.min.js"></script>
+<script src="assets/js/Blob.js"></script>
+<script src="assets/js/downloadify.min.js"></script>
+<script src="assets/js/FileSaver.js"></script>
+<script src="assets/js/swfobject.js"></script>
 <!-- Spinner -->
 <script src="./vendor/spin.js"></script>
 
-<!-- Alert -->
-<script src="./vendor/alertify.js"></script>
-<link rel="stylesheet" media="screen" href="./vendor/alertify.css">
-
-<!-- FileSaver.js is the library of choice for Chrome -->
-<script type="text/javascript" src="./assets/js/Blob.js"></script>
-<script type="text/javascript" src="./assets/js/FileSaver.js"></script>
-
-<!-- FileSaver doesn't work in older IE and newer Safari; Downloadify is the flash fallback -->
-<script type="text/javascript" src="./assets/js/swfobject.js"></script>
-<script type="text/javascript" src="./assets/js/downloadify.min.js"></script>
-<script type="text/javascript" src="./assets/js/base64.min.js"></script>
-
-<script>
-    function s2ab(s) {
-        if(typeof ArrayBuffer !== 'undefined') {
-            var buf = new ArrayBuffer(s.length);
-            var view = new Uint8Array(buf);
-            for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-            return buf;
-        } else {
-            var buf = new Array(s.length);
-            for (var i=0; i!=s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
-            return buf;
-        }
-    }
-
-    function export_table_to_excel(id, type, fn) {
-        var wb = XLSX.utils.table_to_book(document.getElementById(id), {sheet:"Sheet JS"});
-        var wbout = XLSX.write(wb, {bookType:type, bookSST:true, type: 'binary'});
-        var fname = fn || 'test.' + type;
-        try {
-            saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), fname);
-        } catch(e) { if(typeof console != 'undefined') console.log(e, wbout); }
-        return wbout;
-    }
-
-    function doit(type, fn) { return export_table_to_excel('table', type || 'xlsx', fn); }
-</script>
 <pre>
 <div id="drop">
       +---------------------------------------------------------+
@@ -72,50 +53,68 @@ Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/o
 
 <b>Editable Data Table:</b> (click a cell to edit it)
 </pre>
-<table id="table" border="1">
-    <tr><td contenteditable="true" colspan="4">Some merged cell</td></tr>
-    <tr><td contenteditable="true">This</td><td contenteditable="true">is</td><td contenteditable="true">a</td><td contenteditable="true">Test</td></tr>
-    <tr><td contenteditable="true">Fee</td><td contenteditable="true">Fi</td><td contenteditable="true">Fo</td><td contenteditable="true">Fum</td></tr>
-    <tr><td contenteditable="true">Foo</td><td contenteditable="true"></td><td contenteditable="true">Bar</td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true">Baz</td><td contenteditable="true">&#x2603;</td><td contenteditable="true">Qux</td></tr>
-    <tr><td contenteditable="true">1</td><td contenteditable="true">2</td><td contenteditable="true">3</td><td contenteditable="true">4</td></tr>
-</table>
-<br />
-<pre><b> it!</b></pre>
-<table id="xport">
-    <tr><td><pre>XLSX Excel 2007+ XML</pre></td><td>
-        <!--[if gt IE 9]>-->
-        <p id="xportxlsx" class="xport"><input type="submit" value="Export to XLSX!" onclick="doit('xlsx');"></p>
-        <!--<![endif]-->
-        <p id="xlsxbtn" class="btn">Flash required for actually downloading the generated file.</p>
-    </td></tr>
-    <tr><td><pre>XLSB Excel 2007+ Binary</pre></td><td>
-        <!--[if gt IE 9]>-->
-        <p id="xportxlsb" class="xport"><input type="submit" value="Export to XLSB!" onclick="doit('xlsb');"></p>
-        <!--<![endif]-->
-        <p id="xlsbbtn" class="btn">Flash required for actually downloading the generated file.</p>
-    </td></tr>
-    <tr><td><pre>Comma Separated Values</pre></td><td>
-        <!--[if gt IE 9]>-->
-        <p id="xportcsv" class="xport"><input type="submit" value="Export to CSV!" onclick="doit('csv');"></p>
-        <!--<![endif]-->
-        <p id="csvbtn" class="btn">Flash required for actually downloading the generated file.</p>
-    </td></tr>
-</table>
+
+
+<div id="hot" style="overflow: visible;" class="handsontable">
+    <div class="wtHolder" style="position: relative;">
+        <div class="wtHider" style="position: relative; overflow: hidden; height: 390px; width: 1660px;">
+            <div class="wtSpreader" style="position: absolute; top: 0px; left: 0px; height: 4000px; width: 4000px;">
+                <table class="htCore" id="table" border="1">
+                </table>
+            </div>
+    </div>
+</div>
+
+
+<br/>
+<!--<table id="xport">
+    <tr>
+        <td>
+            <pre>XLSX Excel 2007+ XML</pre>
+        </td>
+        <td>
+            &lt;!&ndash;[if gt IE 9]>&ndash;&gt;
+            <p id="xportxlsx" class="xport"><input type="submit" value="Export to XLSX!" onclick="doit('xlsx');"></p>
+            &lt;!&ndash;<![endif]&ndash;&gt;
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>XLSB Excel 2007+ Binary</pre>
+        </td>
+        <td>
+            &lt;!&ndash;[if gt IE 9]>&ndash;&gt;
+            <p id="xportxlsb" class="xport"><input type="submit" value="Export to XLSB!" onclick="doit('xlsb');"></p>
+            &lt;!&ndash;<![endif]&ndash;&gt;
+            <p id="xlsbbtn" class="btn">Flash required for actually downloading the generated file.</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>Comma Separated Values</pre>
+        </td>
+        <td>
+            &lt;!&ndash;[if gt IE 9]>&ndash;&gt;
+            <p id="xportcsv" class="xport"><input type="submit" value="Export to CSV!" onclick="doit('csv');"></p>
+            &lt;!&ndash;<![endif]&ndash;&gt;
+            <p id="csvbtn" class="btn">Flash required for actually downloading the generated file.</p>
+        </td>
+    </tr>
+</table>-->
 <script type="text/javascript">var fallback = false;</script>
-<!--[if lte IE 9]><script type="text/javascript">fallback = true;</script><![endif]-->
+<!--[if lte IE 9]>
+<script type="text/javascript">fallback = true;</script><![endif]-->
 <script type="text/javascript">
     var pending = false;
     var rABS = typeof FileReader !== "undefined" && typeof FileReader.prototype !== "undefined" && typeof FileReader.prototype.readAsBinaryString !== "undefined";
-/*    function fixdata(data) {
-        var o = "", l = 0, w = 10240;
-        for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
-        o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
-        return o;
-    }*/
+    /*    function fixdata(data) {
+     var o = "", l = 0, w = 10240;
+     for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+     o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+     return o;
+     }*/
     function process_wb(wb) {
-//        console.log(wb);
-        var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable:true}).replace("<table", '<table id="table" border="1"')
+        var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true}).replace("<table", '<table id="table" border="1"')
         spinner.stop();
         document.getElementById('table').outerHTML = o;
         pending = false;
@@ -126,39 +125,51 @@ Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/o
         pending = true;
         spinner = new Spinner().spin(drop);
         var worker = new Worker('./assets/js/modify.js');
-        worker.onmessage = function(e) {
-            switch(e.data.t) {
-                case 'ready': break;
-                case 'e': pending = false; console.error(e.data.d); break;
-                case 'xlsx': cb(JSON.parse(e.data.d)); break;
+        worker.onmessage = function (e) {
+            switch (e.data.t) {
+                case 'ready':
+                    break;
+                case 'e':
+                    pending = false;
+                    console.error(e.data.d);
+                    break;
+                case 'xlsx':
+                    cb(JSON.parse(e.data.d));
+                    break;
             }
         };
         var arr = rABS ? data : btoa(fixdata(data));
-        worker.postMessage({d:arr,b:rABS});
+        worker.postMessage({d: arr, b: rABS});
     }
     function handleDrop(e) {
         e.stopPropagation();
         e.preventDefault();
-        if(pending) return alertify.alert('Please wait until the current file is processed.', function(){});
+        if (pending) return alertify.alert('Please wait until the current file is processed.', function () {
+        });
         var files = e.dataTransfer.files;
         var f = files[0];
         var reader = new FileReader();
-        reader.onload = function(e) {
-            if(typeof console !== 'undefined') console.log("onload", new Date());
+        reader.onload = function (e) {
+            if (typeof console !== 'undefined') console.log("onload", new Date());
             var data = e.target.result;
+
             function doitnow() {
                 try {
                     xw(data, process_wb);
-                } catch(e) {
+                } catch (e) {
                     console.log(e);
-                    alertify.alert('We unfortunately dropped the ball here.  Please test the file using the <a href="/js-xlsx/">raw parser</a>.  If there are issues with the file processor, please send this file to <a href="mailto:dev@sheetjs.com?subject=I+broke+your+stuff">dev@sheetjs.com</a> so we can make things right.', function(){});
+                    alertify.alert('We unfortunately dropped the ball here.  Please test the file using the <a href="/js-xlsx/">raw parser</a>.  If there are issues with the file processor, please send this file to <a href="mailto:dev@sheetjs.com?subject=I+broke+your+stuff">dev@sheetjs.com</a> so we can make things right.', function () {
+                    });
                     pending = false;
                 }
             }
-            if(e.target.result.length > 1e6) alertify.confirm("This file is " + e.target.result.length + " bytes and may take a few moments.  Your browser may lock up during this process.  Shall we play?", function(k) { if(k) doitnow(); });
+
+            if (e.target.result.length > 1e6) alertify.confirm("This file is " + e.target.result.length + " bytes and may take a few moments.  Your browser may lock up during this process.  Shall we play?", function (k) {
+                if (k) doitnow();
+            });
             else doitnow();
         };
-        if(rABS) reader.readAsBinaryString(f);
+        if (rABS) reader.readAsBinaryString(f);
         else reader.readAsArrayBuffer(f);
     }
 
@@ -169,7 +180,7 @@ Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/o
     }
 
 
-    if(drop.addEventListener) {
+    if (drop.addEventListener) {
         drop.addEventListener('dragenter', handleDragover, false);
         drop.addEventListener('dragover', handleDragover, false);
         drop.addEventListener('drop', handleDrop, false);
@@ -183,8 +194,10 @@ Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/o
     _gaq.push(['_setAllowLinker', true]);
     _gaq.push(['_trackPageview']);
 
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(ga, s);
