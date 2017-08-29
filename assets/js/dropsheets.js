@@ -56,19 +56,11 @@ var DropSheet = function DropSheet(opts) {
         if(useworker && workbook.SSF) XLSX.SSF.load_table(workbook.SSF);
         var result = {};
         workbook.SheetNames.forEach(function(sheetName) {
-            // var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header:1});
-            var roa = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames], {editable: true}).replace("<table", '<table id="table"')
+            var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header:1});
             if(roa.length > 0) result[sheetName] = roa;
         });
         return result;
     }
-/*    function process_wb(wb) {
-        var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true}).replace("<table", '<table id="table" border="1"')
-        spinner.stop();
-        document.getElementById('table').outerHTML = o;
-        pending = false;
-    }*/
-
 
     function choose_sheet(sheetidx) { process_wb(last_wb, sheetidx); }
 
