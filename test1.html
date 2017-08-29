@@ -54,65 +54,13 @@ Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/o
 <b>Editable Data Table:</b> (click a cell to edit it)
 </pre>
 
-
-<div id="hot" style="overflow: visible;" class="handsontable">
-    <div class="wtHolder" style="position: relative;">
-        <div class="wtHider" style="position: relative; overflow: hidden; height: 390px; width: 1660px;">
-            <div class="wtSpreader" style="position: absolute; top: 0px; left: 0px; height: 4000px; width: 4000px;">
-                <table class="htCore" id="table" border="1">
-                </table>
-            </div>
-    </div>
-</div>
+<table class="htCore" id="table" border="1">
+</table>
 
 
-<br/>
-<!--<table id="xport">
-    <tr>
-        <td>
-            <pre>XLSX Excel 2007+ XML</pre>
-        </td>
-        <td>
-            &lt;!&ndash;[if gt IE 9]>&ndash;&gt;
-            <p id="xportxlsx" class="xport"><input type="submit" value="Export to XLSX!" onclick="doit('xlsx');"></p>
-            &lt;!&ndash;<![endif]&ndash;&gt;
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <pre>XLSB Excel 2007+ Binary</pre>
-        </td>
-        <td>
-            &lt;!&ndash;[if gt IE 9]>&ndash;&gt;
-            <p id="xportxlsb" class="xport"><input type="submit" value="Export to XLSB!" onclick="doit('xlsb');"></p>
-            &lt;!&ndash;<![endif]&ndash;&gt;
-            <p id="xlsbbtn" class="btn">Flash required for actually downloading the generated file.</p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <pre>Comma Separated Values</pre>
-        </td>
-        <td>
-            &lt;!&ndash;[if gt IE 9]>&ndash;&gt;
-            <p id="xportcsv" class="xport"><input type="submit" value="Export to CSV!" onclick="doit('csv');"></p>
-            &lt;!&ndash;<![endif]&ndash;&gt;
-            <p id="csvbtn" class="btn">Flash required for actually downloading the generated file.</p>
-        </td>
-    </tr>
-</table>-->
-<script type="text/javascript">var fallback = false;</script>
-<!--[if lte IE 9]>
-<script type="text/javascript">fallback = true;</script><![endif]-->
 <script type="text/javascript">
     var pending = false;
     var rABS = typeof FileReader !== "undefined" && typeof FileReader.prototype !== "undefined" && typeof FileReader.prototype.readAsBinaryString !== "undefined";
-    /*    function fixdata(data) {
-     var o = "", l = 0, w = 10240;
-     for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
-     o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
-     return o;
-     }*/
     function process_wb(wb) {
         var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true}).replace("<table", '<table id="table" border="1"')
         spinner.stop();
@@ -203,5 +151,6 @@ Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/o
         s.parentNode.insertBefore(ga, s);
     })();
 </script>
+</div>
 </body>
 </html>

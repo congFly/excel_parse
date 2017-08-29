@@ -87,7 +87,7 @@ var _onsheet = function (json, sheetnames, select_sheet_cb) {
         data: json,
         startRows: 5,
         startCols: 3,
-        stretchH: 'all',
+        // stretchH: 'all',
         rowHeaders: true,
         colHeaders: true,
         width: function () {
@@ -96,7 +96,7 @@ var _onsheet = function (json, sheetnames, select_sheet_cb) {
         height: function () {
             return availableHeight;
         },
-        stretchH: 'all'
+        stretchH: 'none'
     });
 };
 
