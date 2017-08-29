@@ -52,7 +52,7 @@ var DropSheet = function DropSheet(opts) {
 
     var last_wb;
 
-    function to_json1(workbook) {
+    function to_json(workbook) {
         if(useworker && workbook.SSF) XLSX.SSF.load_table(workbook.SSF);
         var result = {};
         workbook.SheetNames.forEach(function(sheetName) {
