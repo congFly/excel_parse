@@ -36,7 +36,7 @@ var DropSheet = function DropSheet(opts) {
                 dropsheetPath = scripts[i].src.split('dropsheet.js')[0];
             }
         }
-        var worker = new Worker('./assets/js/modify.js');
+        var worker = new Worker(dropsheetPath + 'sheetjsw.js');
         worker.onmessage = function(e) {
             switch(e.data.t) {
                 case 'ready': break;

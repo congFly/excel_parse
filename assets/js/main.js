@@ -71,17 +71,17 @@ var make_buttons = function (sheetnames, cb) {
 };
 
 var _onsheet = function (json, sheetnames, select_sheet_cb) {
-    $('#footnote').hide();
+/*    $('#footnote').hide();
 
     make_buttons(sheetnames, select_sheet_cb);
     calculateSize();
 
-    /* add header row for table */
+    /!* add header row for table *!/
     if (!json) json = [];
     json.forEach(function (r) {
         if (json[0].length < r.length) json[0].length = r.length;
     });
-    calculateSize();
+    calculateSize();*/
     /* showtime! */
     $("#hot").handsontable({
         data: json,
@@ -96,7 +96,7 @@ var _onsheet = function (json, sheetnames, select_sheet_cb) {
         height: function () {
             return availableHeight;
         },
-        stretchH: 'none'
+        stretchH: 'all'
     });
 };
 
