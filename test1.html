@@ -14,6 +14,7 @@
     <link rel="stylesheet" media="screen" href="vendor/jquery.handsontable.full.css">
     <link rel="stylesheet" media="screen" href="vendor/samples.css">
     <link rel="stylesheet" media="screen" href="vendor/alertify.css">
+    <link rel="stylesheet" media="screen" href="./assets/css/test1.css">
 </head>
 <script src="vendor/alertify.js"></script>
 <script src="vendor/jquery.min.js"></script>
@@ -28,8 +29,8 @@
 
 <script src="assets/js/shim.js"></script>
 <script src="assets/js/xlsx.full.min.js"></script>
-<script src="assets/js/dropsheets.js"></script>
-<script src="assets/js/main.js"></script>
+<!--<script src="assets/js/dropsheets.js"></script>-->
+<!--<script src="assets/js/main.js"></script>-->
 <script src="assets/js/base64.min.js"></script>
 <script src="assets/js/Blob.js"></script>
 <script src="assets/js/downloadify.min.js"></script>
@@ -48,23 +49,23 @@
    // |                                                         | \\
       +---------------------------------------------------------+
 </div>
-
-Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/omb/budget/fy2014/assets/receipts.xls">OMB FY 2014 Federal Receipts</a>
-
-<b>Editable Data Table:</b> (click a cell to edit it)
 </pre>
 
-<table class="htCore" id="table" border="1">
-</table>
+<div id="hot" style="overflow: scroll" class="handsontable"></div>
+<!--<div class="htCore" id="table" border="1">
+</div>-->
 
 
 <script type="text/javascript">
     var pending = false;
     var rABS = typeof FileReader !== "undefined" && typeof FileReader.prototype !== "undefined" && typeof FileReader.prototype.readAsBinaryString !== "undefined";
     function process_wb(wb) {
-        var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true}).replace("<table", '<table id="table" border="1"')
+//        var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true}).replace("<div", '<div id="hot"');
+        var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true});
         spinner.stop();
-        document.getElementById('table').outerHTML = o;
+        console.log(o);
+        document.getElementById('hot').outerHTML = o;
+//        document.getElementById('hot').innerHTML = o;
         pending = false;
     }
     var drop = document.getElementById('drop');
@@ -120,6 +121,16 @@ Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/o
         if (rABS) reader.readAsBinaryString(f);
         else reader.readAsArrayBuffer(f);
     }
+    var _onsheet = function (json) {
+        $("#hot").handsontable({
+            data: json,
+            startRows: 5,
+            startCols: 3,
+            stretchH: 'all',
+            rowHeaders: true,
+            colHeaders: true,
+        });
+    };
 
     function handleDragover(e) {
         e.stopPropagation();
@@ -132,6 +143,7 @@ Need a file? <a href="https://obamawhitehouse.archives.gov/sites/default/files/o
         drop.addEventListener('dragenter', handleDragover, false);
         drop.addEventListener('dragover', handleDragover, false);
         drop.addEventListener('drop', handleDrop, false);
+        drop.addEventListener('drop', _onsheet, false);
     }
 
 </script>
