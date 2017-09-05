@@ -71,7 +71,7 @@ var make_buttons = function (sheetnames, cb) {
 };
 
 var _onsheet = function (json, sheetnames, select_sheet_cb) {
-/*    $('#footnote').hide();
+  $('#footnote').hide();
 
     make_buttons(sheetnames, select_sheet_cb);
     calculateSize();
@@ -81,15 +81,18 @@ var _onsheet = function (json, sheetnames, select_sheet_cb) {
     json.forEach(function (r) {
         if (json[0].length < r.length) json[0].length = r.length;
     });
-    calculateSize();*/
+    calculateSize();
     /* showtime! */
     $("#hot").handsontable({
         data: json,
         startRows: 5,
         startCols: 3,
-        // stretchH: 'all',
         rowHeaders: true,
         colHeaders: true,
+        margeCells: true,
+  /*     mergeCells: [
+            {row: 2, col: 2, rowspan: 5, colspan: 1},
+        ],*/
         width: function () {
             return availableWidth;
         },

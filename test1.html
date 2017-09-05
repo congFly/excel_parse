@@ -52,8 +52,6 @@
 </pre>
 
 <div id="hot" style="overflow: scroll" class="handsontable"></div>
-<!--<div class="htCore" id="table" border="1">
-</div>-->
 
 
 <script type="text/javascript">
@@ -62,10 +60,19 @@
     function process_wb(wb) {
 //        var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true}).replace("<div", '<div id="hot"');
         var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true});
+        var $o=$(o);
+        var txt1 = "<tr><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>G</td><td>K</td><td>L</td><td>M</td>" +
+            "<td>N</td><td>O</td><td>P</td><td>Q</td><td>R</td><td>R</td><td>S</td><td>T</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td></tr>";
+
+        $o.find('tbody').prepend(txt1);
+
+        var $tr =$o.find('tr');
+        for (var i = 0; i < $tr.length; i++) {
+            $($tr[i]).prepend("<td>"+i+"</td>");
+        }
+
         spinner.stop();
-        console.log(o);
-        document.getElementById('hot').outerHTML = o;
-//        document.getElementById('hot').innerHTML = o;
+        $('#hot').prepend($o[1]);
         pending = false;
     }
     var drop = document.getElementById('drop');
@@ -121,16 +128,6 @@
         if (rABS) reader.readAsBinaryString(f);
         else reader.readAsArrayBuffer(f);
     }
-    var _onsheet = function (json) {
-        $("#hot").handsontable({
-            data: json,
-            startRows: 5,
-            startCols: 3,
-            stretchH: 'all',
-            rowHeaders: true,
-            colHeaders: true,
-        });
-    };
 
     function handleDragover(e) {
         e.stopPropagation();
@@ -143,7 +140,6 @@
         drop.addEventListener('dragenter', handleDragover, false);
         drop.addEventListener('dragover', handleDragover, false);
         drop.addEventListener('drop', handleDrop, false);
-        drop.addEventListener('drop', _onsheet, false);
     }
 
 </script>
@@ -163,6 +159,5 @@
         s.parentNode.insertBefore(ga, s);
     })();
 </script>
-</div>
 </body>
 </html>
