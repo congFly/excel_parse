@@ -10,6 +10,7 @@ table {
     max-width: none;
     max-height: none;
 }
+
 td {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
@@ -26,7 +27,6 @@ td {
     font-size: 12px;
 }
 
-
 th {
     background-color: #EEE;
     color: #222;
@@ -41,4 +41,12 @@ tr:last-child th {
 
 tr:first-child th, tr:first-child td {
     border-top: 1px solid #CCC;
+}
+
+.current {
+    border: 2px solid #c6110b !important;
+}
+
+.default_td {
+    border: 1px solid #CCC !important;
 }

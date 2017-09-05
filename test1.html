@@ -84,6 +84,17 @@
         spinner.stop();
         $('#hot').prepend($o[1]);
         pending = false;
+
+        $o.find('td').focus(function () {
+            $(this).addClass('current');
+        })
+
+        $o.find('td').blur(function () {
+            $(this).addClass('default_td');
+        })
+
+
+
     }
     var drop = document.getElementById('drop');
     var spinner;
