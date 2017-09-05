@@ -53,7 +53,6 @@
 
 <div id="hot" style="overflow: scroll" class="handsontable"></div>
 
-
 <script type="text/javascript">
     var pending = false;
     var rABS = typeof FileReader !== "undefined" && typeof FileReader.prototype !== "undefined" && typeof FileReader.prototype.readAsBinaryString !== "undefined";
@@ -61,37 +60,32 @@
 //        var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true}).replace("<div", '<div id="hot"');
         var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable: true});
         var $o = $(o);
-        /*var txt1 = "<tr><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>G</td><td>K</td><td>L</td><td>M</td>" +
-         "<td>N</td><td>O</td><td>P</td><td>Q</td><td>R</td><td>R</td><td>S</td><td>T</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td></tr>";
-         $o.find('tbody').prepend(txt1);*/
-
 
         $o.find('tbody').prepend("<tr></tr>");
         var tbody = $o.find('tbody')[0];
         var trSecond = $o.find('tr')[1];
         var tdCount = $(trSecond).find('td').length;
-        for (var i = 65; i < 65 + tdCount; i++) {
-            var letter = String.fromCharCode(i);
+        var letter;
+        for (var i = 0; i < tdCount; i++) {
+            if (i <= 25) {
+                letter = String.fromCharCode(i + 65);
+            } else if (i > 702) {
+                letter = '';
+            } else {
+                letter = String.fromCharCode((i / 26 - 1) + 65, i % 26 + 65);
+            }
             $($(tbody).find('tr')[0]).append("<td>" + letter + "</td>");
         }
 
-
         var $tr = $o.find('tr');
         for (var i = 0; i < $tr.length; i++) {
-            $($tr[i]).prepend("<td>" + i + "</td>");
+
+            $($tr[i]).prepend("<td>" + (i ? i : '' ) + "</td>");
         }
 
         spinner.stop();
         $('#hot').prepend($o[1]);
         pending = false;
-
-        /*$o.find('td').focus(function () {
-         $(this).addClass('current');
-         })
-
-         $o.find('td').blur(function () {
-         $(this).addClass('default_td');
-         })*/
 
         $o.find('td').click(function () {
             $(this).addClass('current').siblings().removeClass('current');

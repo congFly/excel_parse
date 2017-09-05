@@ -44,9 +44,5 @@ tr:first-child th, tr:first-child td {
 }
 
 .current {
-    border: 2px solid #c6110b !important;
-}
-
-.default_td {
-    border: 1px solid #CCC !important;
+    border: 2px solid #44c60b !important;
 }
