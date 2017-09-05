@@ -85,14 +85,18 @@
         $('#hot').prepend($o[1]);
         pending = false;
 
-        $o.find('td').focus(function () {
-            $(this).addClass('current');
-        })
+        /*$o.find('td').focus(function () {
+         $(this).addClass('current');
+         })
 
-        $o.find('td').blur(function () {
-            $(this).addClass('default_td');
-        })
+         $o.find('td').blur(function () {
+         $(this).addClass('default_td');
+         })*/
 
+        $o.find('td').click(function () {
+            $(this).addClass('current').siblings().removeClass('current');
+            $(this).parent().siblings().find('td').removeClass('current');
+        })
 
 
     }
